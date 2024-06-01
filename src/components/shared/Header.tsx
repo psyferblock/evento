@@ -8,7 +8,7 @@ const Header = () => {
 			<div className="wrapper flex items-center justify-between">
 				<Link
 					href="/"
-					className="w-36"
+					className="w-36 "
 				>
 					<Image
 						src="/assets/images/logo.svg"
@@ -18,7 +18,6 @@ const Header = () => {
 					/>
 				</Link>
                 <div className="flex w-32 justify-end gap-3">
-                    
                 </div>
 			</div>
 		</header>
