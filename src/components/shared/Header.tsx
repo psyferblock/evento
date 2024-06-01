@@ -22,7 +22,7 @@ const Header = () => {
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
           <SignedOut>
-            <Link href="/sign-in">login</Link>
+            <Link href="/api/sign-in">login</Link>
           </SignedOut>
         </div>
       </div>
