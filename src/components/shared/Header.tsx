@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "@/public/assets/images/logo.svg";
+import NavItems from "./NavItems";
+import MobileNav from "./MobileNav";
 
 const Header = () => {
   return (
@@ -17,9 +19,15 @@ const Header = () => {
 			"
           />
         </Link>
+        <SignedIn>
+          <nav className="md:flex-between hidden full max-w-xs">
+            <NavItems/>
+          </nav>
+        </SignedIn>
         <div className="flex w-32 justify-end gap-3">
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
+            <MobileNav/>
           </SignedIn>
           <SignedOut>
             <Link href="/api/sign-in">login</Link>
