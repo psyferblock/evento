@@ -17,8 +17,8 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-	title: "evento",
-	description: "Evento is an event app for ze peeps and the places",
+	title: "Eventus Maxuimus",
+	description: "Eventus Maximus is an event app for ze peeps and ze places",
 };
 
 export default function RootLayout({

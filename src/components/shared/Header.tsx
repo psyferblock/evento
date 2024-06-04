@@ -10,24 +10,24 @@ const Header = () => {
   return (
     <header className="w-full">
       <div className="wrapper flex items-center justify-between">
-        <Link href="/" className="w-36 ">
+        <Link href="/" className="w-36">
           <Image
             src={Logo}
             width={98}
             height={38}
             alt="Eventus Maximus
-			"
+          			"
           />
         </Link>
         <SignedIn>
-          <nav className="md:flex-between hidden full max-w-xs">
-            <NavItems/>
+          <nav className="md:flex-between full hidden max-w-xs">
+            <NavItems />
           </nav>
         </SignedIn>
         <div className="flex w-32 justify-end gap-3">
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
-            <MobileNav/>
+            <MobileNav />
           </SignedIn>
           <SignedOut>
             <Link href="/api/sign-in">login</Link>
