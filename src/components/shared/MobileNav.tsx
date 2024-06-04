@@ -13,16 +13,13 @@ import Image from "next/image";
 import NavItems from "./NavItems";
 import { Separator } from "../ui/separator";
 
-import Logo from "@/public/assets/images/logo.svg";
-import MenuSvg from "@/public/assets/icons/menu.svg";
-
 const MobileNav = () => {
   return (
     <nav className="md:hidden">
       <Sheet>
         <SheetTrigger className="align-middle">
           <Image
-            src={MenuSvg}
+            src="/assets/icons/menu.svg"
             width={50}
             alt="menu"
             height={50}
@@ -33,7 +30,12 @@ const MobileNav = () => {
           side={"right"}
           className="flex flex-col bg-white md:hidden"
         >
-          <Image src={Logo} height={50} width={50} alt="logo" />
+          <Image
+            src="/assets/images/logo.svg"
+            height={50}
+            width={50}
+            alt="logo"
+          />
           <Separator />
           <NavItems />
         </SheetContent>
