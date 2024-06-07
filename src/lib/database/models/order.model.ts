@@ -1,11 +1,12 @@
 import { Schema, model, models } from "mongoose";
 
 const orderSchema = new Schema({
-    
-})
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+});
 
+const Order = models.Order || model("Order", orderSchema);
 
-const Order = models.Urder || model("user", orderSchema);
-
-
-export const Order
+export default Order;
