@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 import { NextResponse } from "next/server";
 import { clerkClient } from "@clerk/nextjs/server";
+import { handleError } from "@/lib/utils";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -82,26 +83,41 @@ export async function POST(req: Request) {
   }
 
   if (eventType === "user.updated") {
-    const { id, image_url, first_name, last_name, username } = evt.data;
+    const evtData = evt.data;
 
-    const user = {
-      firstName: first_name,
-      lastName: last_name,
-      username: username!,
-      photo: image_url,
-    };
+    // Ensure evt.data is defined and contains the required properties
+    if (evtData && typeof evtData === "object") {
+      const { id, image_url, first_name, last_name, username } = evtData;
 
-    const updatedUser = await updateUser(id, user);
+      // Check if required properties are present and not undefined or null
+      if (id && first_name && last_name && username) {
+        const user = {
+          firstName: first_name,
+          lastName: last_name,
+          username: username,
+          photo: image_url,
+        };
 
-    return NextResponse.json({ message: "OK", user: updatedUser });
+        try {
+          const updatedUser = await updateUser(id, user);
+          console.log("User updated successfully:", updatedUser);
+          return NextResponse.json({ message: "OK", user: updateUser });
+        } catch (error) {
+          handleError(error);
+        }
+      }
+    }
   }
 
   if (eventType === "user.deleted") {
-    const { id } = evt.data;
+    const evtData = evt.data;
+    if (evtData) {
+      const { id } = evt.data;
 
-    const deletedUser = await deleteUser(id!);
+      const deletedUser = await deleteUser(id!);
 
-    return NextResponse.json({ message: "OK", user: deletedUser });
+      return NextResponse.json({ message: "OK", user: deletedUser });
+    }
   }
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
