@@ -30,7 +30,7 @@ const Header = () => {
             <MobileNav />
           </SignedIn>
           <SignedOut>
-            <Link href="/api/sign-in">login</Link>
+            <Link href="/sign-in">login</Link>
           </SignedOut>
         </div>
       </div>
