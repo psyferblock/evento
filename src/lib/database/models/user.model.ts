@@ -5,10 +5,14 @@ const userSchema = new Schema({
 
   email: { type: String, required: true, unique: true },
 
-  username: { type: String, required: true, unique: true },
+  // username: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   photo: { type: String, required: true },
+
+  lastSignInAt: { type: Number, required: false },
+  createdAt: { type: Number, required: false },
+  updatedAt: { type: Number, required: false },
 });
 
 const User = models.User || model("User", userSchema);

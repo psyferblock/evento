@@ -1,12 +1,25 @@
 import { Button } from "@/components/ui/button";
+import { createUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const user = {
+    clerkId: "32968763289",
+    email: "askdhjgf@asdhjfgklj.com",
+    firstName: "tarek",
+    lastName: "ghosn",
+    photo: "dfasldjkhfalkjshdka",
+    lastSignInAt: 648745,
+    createdAt: 58765,
+    updatedAt: 478547856,
+  };
+
+  const newUser = await createUser(user);
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:py-10">
-      <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
+        <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
           <div className="flex flex-col justify-center gap-8">
             <h1 className="h1-bold"> Take your Eventus, to the Maximus</h1>
             <p className="p-regular-20 md:p-regular-24">
@@ -27,11 +40,15 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="wrapper m-8 flex flex-col gap-8 md:gap-12" id="events">
-        <h2>Trusted by <br/> Thousands of events</h2>
+      <section
+        className="wrapper m-8 flex flex-col gap-8 md:gap-12"
+        id="events"
+      >
+        <h2>
+          Trusted by <br /> Thousands of events
+        </h2>
         <div className="flex w-full flex-col gap-5 md:flex-row">
-          serch 
-          category filter
+          serch category filter
         </div>
       </section>
     </>
