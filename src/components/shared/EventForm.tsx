@@ -20,6 +20,10 @@ import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
 import { FileUploader } from "./FileUploader";
 import { useState } from "react";
+import Image from "next/image";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type EventFormProps = {
   userId: string;
@@ -117,6 +121,68 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                     imageUrl={field.value}
                     setFiles={setFiles}
                   />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                {/* <FormLabel>Username</FormLabel> */}
+                <FormControl>
+                  <div className="flex-center h-[55px] w-full overflow-hidden bg-gray-50 px-4 py-2">
+                    <Image
+                      src="/assets/icons/location-grey.svg"
+                      alt="location"
+                      width={24}
+                      height={24}
+                    />
+                    <Input
+                      placeholder="Event Location or Online"
+                      {...field}
+                      className="input-field"
+                    />
+                  </div>
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <FormField
+            control={form.control}
+            name="startDateTime"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                {/* <FormLabel>Username</FormLabel> */}
+                <FormControl>
+                  <div className="flex-center h-[55px] w-full overflow-hidden bg-gray-50 px-4 py-2">
+                    <Image
+                      src="/assets/icons/calendar.svg"
+                      alt="calendar"
+                      width={24}
+                      height={24}
+                    />
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date: Date) => field.onChange(date)}
+                      showTimeSelect
+                      timeInputLabel="Time:"
+                      dateFormat="dd/MM/yyyy h:mm aa"
+                      wrapperClassName="datePicker"
+                    />
+                    <p className="text-grey-600 ml-3 whitespace-nowrap">
+                      Start Date:{}
+                    </p>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
