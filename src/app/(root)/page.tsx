@@ -4,18 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
-  const user = {
-    clerkId: "32968763289",
-    email: "askdhjgf@asdhjfgklj.com",
-    firstName: "tarek",
-    lastName: "ghosn",
-    photo: "dfasldjkhfalkjshdka",
-    lastSignInAt: 648745,
-    createdAt: 58765,
-    updatedAt: 478547856,
-  };
 
-  const newUser = await createUser(user);
+
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:py-10">
