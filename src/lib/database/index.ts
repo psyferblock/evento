@@ -1,16 +1,14 @@
-
 import mongoose from "mongoose";
 declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
 }
-console.log("MONGODB_URI", process.env.MONGODB_URI_DEVELOPMENT);
+console.log("MONGODB_URI", process.env.MONGODB_URI);
 console.log("MONGODB_URI", process.env.MONGODB_URI_PRODUCTION);
 
 const MONGODB_URI =
-  process.env.NODE_ENV === "development"
-    ? 
-    process.env.MONGODB_URI!
-    : process.env.MONGODM_URI_PRODUCTION!;
+  // process.env.NODE_ENV === "development"
+  process.env.MONGODB_URI!;
+// : process.env.MONGODM_URI_PRODUCTION!;
 
 console.log("MONGODB_URI", MONGODB_URI);
 
