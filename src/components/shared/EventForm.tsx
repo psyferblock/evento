@@ -38,17 +38,7 @@ type EventFormProps = {
 const EventForm = ({ userId, type }: EventFormProps) => {
   // 1. Define your form.
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing("imageUploader", {
-    onClientUploadComplete: () => {
-      alert("uploaded successfully!");
-    },
-    onUploadError: () => {
-      alert("error occurred while uploading");
-    },
-    onUploadBegin: () => {
-      alert("upload has begun");
-    },
-  });
+  const { startUpload } = useUploadThing("imageUploader");
 
   const router = useRouter()
 
@@ -61,7 +51,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
-    const eventData = values;
+    // const eventData = values;
     let uploadedImageUrl = values.imageUrl;
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
@@ -86,7 +76,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
         console.log("error", error);
       }
     }
-    console.log("values", values);
+    // console.log("values", values);
   }
   return (
     <Form {...form}>

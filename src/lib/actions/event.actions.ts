@@ -23,6 +23,8 @@ export const createEvent = async ({
       category: event.categoryId,
       organizer: userId,
     });
+    // revalidatePath(path)
+
     return JSON.parse(JSON.stringify(newEvent));
   } catch (error) {
     handleError(error);

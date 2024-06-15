@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
 import { NextResponse } from "next/server";
-import { clerkClient } from '@clerk/clerk-sdk-node';
+import { clerkClient } from "@clerk/clerk-sdk-node";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
       image_url,
       first_name,
       last_name,
-      username ,
+      username,
 
       created_at,
       updated_at,
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
       last_name,
       username,
 
-      created_at,
+      // created_at,
       updated_at,
       last_sign_in_at,
     } = evt.data;
@@ -116,7 +116,7 @@ export async function POST(req: Request) {
 
       photo: image_url,
       lastSignInAt: last_sign_in_at,
-      createdAt: created_at,
+      // createdAt: created_at,
       updatedAt: updated_at,
     };
 

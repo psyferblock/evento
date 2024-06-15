@@ -36,13 +36,14 @@ const Dropdown = ({ value, onChangeHandler }: DropDownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async () => {
     //logic to add category
-    createCategory({
+    const category = await createCategory({
       categoryName: newCategory.trim(),
-    }).then((category) => {
+    })
+    
       setCategories((prevState) => [...prevState, category]);
-    });
+    
   };
   useEffect(() => {
     const getCategories = async () => {
