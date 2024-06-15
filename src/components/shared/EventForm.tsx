@@ -26,6 +26,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
+import { useUploadThing } from "@/utils/uploadthing";
+import { createEvent } from "@/lib/actions/event.actions";
+import { useRouter } from "next/navigation";
 
 type EventFormProps = {
   userId: string;
@@ -35,6 +38,19 @@ type EventFormProps = {
 const EventForm = ({ userId, type }: EventFormProps) => {
   // 1. Define your form.
   const [files, setFiles] = useState<File[]>([]);
+  const { startUpload } = useUploadThing("imageUploader", {
+    onClientUploadComplete: () => {
+      alert("uploaded successfully!");
+    },
+    onUploadError: () => {
+      alert("error occurred while uploading");
+    },
+    onUploadBegin: () => {
+      alert("upload has begun");
+    },
+  });
+
+  const router = useRouter()
 
   const initialValues = eventDefaultValues;
 
@@ -44,10 +60,33 @@ const EventForm = ({ userId, type }: EventFormProps) => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof eventFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("values",values);
+  async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    const eventData = values;
+    let uploadedImageUrl = values.imageUrl;
+    if (files.length > 0) {
+      const uploadedImages = await startUpload(files);
+      if (!uploadedImages) {
+        return;
+      }
+
+      uploadedImageUrl = uploadedImages[0].url;
+    }
+    if (type === "Create") {
+      try {
+        const newEvent = await createEvent({
+          event: { ...values, imageUrl: uploadedImageUrl },
+          userId,
+          path: "/profile",
+        });
+        if(newEvent){
+          form.reset()
+          router.push(`/events/${newEvent._id}`)
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+    console.log("values", values);
   }
   return (
     <Form {...form}>
@@ -78,19 +117,20 @@ const EventForm = ({ userId, type }: EventFormProps) => {
             control={form.control}
             name="categoryId"
             render={({ field }) => {
-            return (
-              <FormItem className="w-full">
-                {/* <FormLabel>Username</FormLabel> */}
-                <FormControl>
-                  <Dropdown
-                    onChangeHandler={field.onChange}
-                    value={field.value}
-                  />
-                </FormControl>
+              return (
+                <FormItem className="w-full">
+                  {/* <FormLabel>Username</FormLabel> */}
+                  <FormControl>
+                    <Dropdown
+                      onChangeHandler={field.onChange}
+                      value={field.value}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}}
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
@@ -174,7 +214,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                       width={24}
                       height={24}
                     />
-                    <p className="text-grey-600 ml-3 whitespace-nowrap">
+                    <p className="ml-3 whitespace-nowrap text-grey-600">
                       Start Date:{}
                     </p>
                     <DatePicker
@@ -207,7 +247,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                       width={24}
                       height={24}
                     />
-                    <p className="text-grey-600 ml-3 whitespace-nowrap">
+                    <p className="ml-3 whitespace-nowrap text-grey-600">
                       End Date:
                     </p>
                     <DatePicker
@@ -245,7 +285,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                       type="number"
                       placeholder="price"
                       {...field}
-                      className="p-regular-16 bg-grey-50 border-0 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      className="p-regular-16 border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     />
                     <FormField
                       control={form.control}
@@ -262,10 +302,10 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                                 Free Ticket
                               </Label>
                               <Checkbox
-                              onCheckedChange={field.onChange}
-                              checked={field.value}
+                                onCheckedChange={field.onChange}
+                                checked={field.value}
                                 id="isFree"
-                                className="border-primary-500 mr-2 h-5 w-5 border-2"
+                                className="mr-2 h-5 w-5 border-2 border-primary-500"
                               />
                             </div>
                           </FormControl>
@@ -314,7 +354,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full"
         >
-          {form.formState.isSubmitting ? ( "Submitting...") : (`${type} Event`)}
+          {form.formState.isSubmitting ? "Submitting..." : `${type} Event`}
         </Button>
       </form>
     </Form>
