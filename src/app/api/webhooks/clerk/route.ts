@@ -84,11 +84,12 @@ export async function POST(req: Request) {
     };
 
     const newUser = await createUser(user);
-
+    
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
           userId: newUser._id,
+          userName: first_name?.concat( last_name || "") ,
         },
       });
     }
