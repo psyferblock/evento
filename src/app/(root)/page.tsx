@@ -1,11 +1,10 @@
+import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
 import { createUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
-
-
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:py-10">
@@ -41,6 +40,16 @@ export default async function Home() {
           serch category filter
         </div>
       </section>
+      {/* the naming of the props is designed for the component to be reusable( similat to the types prop when we were at createEvent Component) */}
+      <Collection
+        data={[]}
+        emptyTitle="No Events Found"
+        emptyStateSubtext="Come Back Later"
+        collectionType="All_Events"
+        limit={6}
+        page={1}
+        totalPages={2}
+      />
     </>
   );
 }
