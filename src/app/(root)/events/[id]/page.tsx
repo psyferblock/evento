@@ -1,9 +1,13 @@
-import React from 'react'
+import { getEventById } from "@/lib/actions/event.actions";
+import React from "react";
 
-const EventDetailsPage = () => {
-  return (
-    <div>EventDetailsPage</div>
-  )
-}
+const EventDetailsPage = async ({
+  searchParams: { id },
+}: {
+  searchParams: { id: string };
+}) => {
+  const event = await getEventById(id);
+  return <div>EventDetailsPage</div>;
+};
 
-export default EventDetailsPage
+export default EventDetailsPage;
