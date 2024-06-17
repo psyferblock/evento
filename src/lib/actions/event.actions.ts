@@ -30,3 +30,17 @@ export const createEvent = async ({
     handleError(error);
   }
 };
+
+export const getEventById = async (eventId:string) => {
+  try {
+    await connectToDatabase()
+    const event = await Event.findById({eventId})
+
+    if(!event){
+      throw new Error("no event found")
+    }
+    return JSON.parse(JSON.stringify(event))
+  } catch (error) {
+    handleError(error)
+  }
+};
