@@ -2,11 +2,14 @@ import EventForm from "@/components/shared/EventForm";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
-
+type UserPublicMetadata={
+  userId:string,
+  userName:string
+}
 const CreateEvent = () => {
   const { sessionClaims } = auth();
-  const userId=sessionClaims?.userId as string
-  console.log('userId', userId)
+  const userPublicMetadata = sessionClaims?.userPublidMetadata as UserPublicMetadata;
+  const userId=userPublicMetadata.userId
 
   return (
     <>
@@ -14,7 +17,7 @@ const CreateEvent = () => {
         <h3 className="wrapper h3-bold text-center sm:text-left"></h3>
       </section>
       <div className="wrapper my-8">
-        <EventForm userId={userId} type="Create"/>
+        <EventForm userId={userId} type="Create" />
       </div>
     </>
   );

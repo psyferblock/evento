@@ -81,14 +81,17 @@ export async function POST(req: Request) {
       createdAt: created_at,
       updatedAt: updated_at,
     };
-
+//we are getting the user we created from the db 
     const newUser = await createUser(user);
+    // the user role should be added to the user as well so we can get it
+    // since we are using mongodb we should be interacting twith the role in such a setting roles:{ userRole:"admin",accessLevel:"4"}
     
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
           userId: newUser._id,
           userName: first_name?.concat( last_name || "") ,
+          // userEmail:newUser.email_addresses[0]
         },
       });
     }
