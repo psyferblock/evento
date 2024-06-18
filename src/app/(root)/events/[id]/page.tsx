@@ -1,4 +1,6 @@
+import CheckoutButton from "@/components/shared/CheckoutButton";
 import Collection from "@/components/shared/Collection";
+import { Button } from "@/components/ui/button";
 import {
   getEventById,
   getRelatedEventsByCategory,
@@ -8,13 +10,16 @@ import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import React from "react";
 
-const EventDetailsPage = async ({ params: { id } ,searchParams}: SearchParamProps) => {
+const EventDetailsPage = async ({
+  params: { id },
+  searchParams,
+}: SearchParamProps) => {
   const event = await getEventById(id);
   console.log("event", event);
   const relatedEvents = await getRelatedEventsByCategory({
-    categoryId:event.category._id,
-    eventId:event._id,
-    page : searchParams.page as string,
+    categoryId: event.category._id,
+    eventId: event._id,
+    page: searchParams.page as string,
   });
   return (
     <>
@@ -48,6 +53,7 @@ const EventDetailsPage = async ({ params: { id } ,searchParams}: SearchParamProp
               </div>
             </div>
             {/* CHECKOUT BUTTON */}
+            <CheckoutButton event={event}/>
             <div className="flex flex-col gap-5">
               <div className="flex gap-2 md:gap-3">
                 <Image
