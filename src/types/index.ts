@@ -66,7 +66,6 @@ export type GetAllEventsParams = {
   limit: number;
   page: number;
 };
-
 export type GetEventsByUserParams = {
   userId: string;
   limit?: number;
@@ -151,3 +150,5 @@ export type SearchParamProps = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
+
+

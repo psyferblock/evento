@@ -80,10 +80,11 @@ export const getAllEvents = async ({
 
     const conditions = {};
 
+    const skipAmount = (Number(page) - 1) * limit
     const eventsQuery = Event.find(conditions)
-      .sort({ createdAt: "desc" })
-      .skip(0)
-      .limit(limit);
+      .sort({ createdAt: 'desc' })
+      .skip(skipAmount)
+      .limit(limit)
 
     const events = await populateEvent(eventsQuery);
     const eventsCount = await Event.countDocuments(conditions);
@@ -134,3 +135,5 @@ export const updateEvent = async ({
     handleError(error);
   }
 };
+
+

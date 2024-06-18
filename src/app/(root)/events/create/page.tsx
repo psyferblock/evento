@@ -1,15 +1,13 @@
 import EventForm from "@/components/shared/EventForm";
+import { getEventById } from "@/lib/actions/event.actions";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
-type UserPublicMetadata={
-  userId:string,
-  userName:string
-}
 const CreateEvent = () => {
   const { sessionClaims } = auth();
-  const userPublicMetadata = sessionClaims?.userPublidMetadata as UserPublicMetadata;
-  const userId=userPublicMetadata.userId
+  const userPublicMetadata =    sessionClaims?.userPublidMetadata as UserPublicMetadata;
+  const userId = userPublicMetadata.userId as string ;
+
 
   return (
     <>
