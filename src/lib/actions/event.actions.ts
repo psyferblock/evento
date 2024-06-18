@@ -1,25 +1,25 @@
 "use server";
 
-import { CreateEventParams } from "@/types";
+import { CreateEventParams, GetAllEventsParams } from "@/types";
 import { handleError } from "../utils";
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 
-
-// create populate event function 
+// create populate event function
 const populateEvent = async (query: any) => {
-  return query.populate({
-    path: "organizer",
-    model: User,
-    slect: "_id firstName lastName",
-  })
-  .populate({
-    path: "category",
-    model: Category,
-    slect: "_id name ",
-  });
+  return query
+    .populate({
+      path: "organizer",
+      model: User,
+      slect: "_id firstName lastName",
+    })
+    .populate({
+      path: "category",
+      model: Category,
+      slect: "_id name ",
+    });
 };
 
 export const createEvent = async ({
@@ -50,12 +50,41 @@ export const createEvent = async ({
 export const getEventById = async (eventId: string) => {
   try {
     await connectToDatabase();
-    const event = await populateEvent(Event.findById( eventId ));
+    const event = await populateEvent(Event.findById(eventId));
 
     if (!event) {
       throw new Error("no event found");
     }
     return JSON.parse(JSON.stringify(event));
+  } catch (error) {
+    handleError(error);
+  }
+};
+export const getAllEvents = async ({
+  query,
+  limit = 6,
+  page,
+  category,
+}: GetAllEventsParams) => {
+  try {
+    await connectToDatabase();
+
+    const conditions = {};
+
+    const eventsQuery = Event.find(conditions)
+      .sort({ createdAt: "desc" })
+      .skip(0)
+      .limit(limit);
+
+    const events = await populateEvent(eventsQuery);
+    const eventsCount = await Event.countDocuments(conditions);
+    if (!events) {
+      throw new Error("no event found");
+    }
+    return {
+      data: JSON.parse(JSON.stringify(events)),
+      pages: Math.ceil(eventsCount / limit),
+    };
   } catch (error) {
     handleError(error);
   }

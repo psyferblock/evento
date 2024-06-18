@@ -1,10 +1,18 @@
 import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
+import { getAllEvents } from "@/lib/actions/event.actions";
 import { createUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
+  const events = await getAllEvents({
+    query: "",
+    category: "",
+    page: 1,
+    limit: 6,
+  });
+  console.log("events", events);
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:py-10">
@@ -42,7 +50,7 @@ export default async function Home() {
       </section>
       {/* the naming of the props is designed for the component to be reusable( similat to the types prop when we were at createEvent Component) */}
       <Collection
-        data={[]}
+        data={events?.data}
         emptyTitle="No Events Found"
         emptyStateSubtext="Come Back Later"
         collectionType="All_Events"
