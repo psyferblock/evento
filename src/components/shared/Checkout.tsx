@@ -2,6 +2,7 @@ import { IEvent } from "@/lib/database/models/event.model";
 import React from "react";
 import { Button } from "../ui/button";
 import { loadStripe } from "@stripe/stripe-js";
+import { checkoutOrder } from "@/lib/actions/order.actions";
 
 
 const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!;
