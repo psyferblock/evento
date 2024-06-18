@@ -10,7 +10,6 @@ const CreateEvent = () => {
   const { sessionClaims } = auth();
   const userPublicMetadata = sessionClaims?.userPublidMetadata as UserPublicMetadata;
   const userId=userPublicMetadata.userId
-  console.log('userId', userId)
 
   return (
     <>
