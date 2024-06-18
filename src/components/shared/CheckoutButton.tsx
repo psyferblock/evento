@@ -4,11 +4,17 @@ import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import Checkout from "./Checkout";
+
+
 
 const CheckoutButton = ({ event }: { event: IEvent }) => {
   const hasEventFinished = new Date(event.startDateTime) < new Date();
   const { user } = useUser();
   const userId = user?.publicMetadata.userId as string;
+
+ 
+
   return (
     <div className="flex items-center gap-3">
       {hasEventFinished ? (
@@ -30,6 +36,6 @@ const CheckoutButton = ({ event }: { event: IEvent }) => {
       )}
     </div>
   );
-}
+};
 
 export default CheckoutButton;
