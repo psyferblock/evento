@@ -1,9 +1,11 @@
 "use server";
 
-import { CheckoutOrderParams } from "@/types";
+import { CheckoutOrderParams, CreateOrderParams } from "@/types";
 import { handleError } from "../utils";
 import { Stripe } from "stripe";
 import { redirect } from "next/navigation";
+import { connectToDatabase } from "../database";
+import Order from "../database/models/order.model";
 
 export const checkoutOrder = async ({
   order,
@@ -38,6 +40,22 @@ export const checkoutOrder = async ({
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
     redirect(session.url!);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const createOrder = async (order: CreateOrderParams) => {
+  try {
+    await connectToDatabase();
+
+    const newOrder = await Order.create({
+      ...order,
+      event: order.eventId,
+      buyer: order.buyerId,
+    });
+
+    return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
   }

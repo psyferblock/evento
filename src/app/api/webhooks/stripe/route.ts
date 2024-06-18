@@ -11,6 +11,7 @@
 // 3) Run the server on http://localhost:4242
 //   node server.js
 
+import { createOrder } from "@/lib/actions/order.actions";
 import { NextRequest, NextResponse } from "next/server";
 
 // The library needs to be configured with your account's secret key.
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
     };
     // Return a 200 response to acknowledge receipt of the event
     
-    // const newOrder = await createOrder(order);
+    const newOrder = await createOrder(order);
     return NextResponse.json({ message: "OK", order: newOrder });
   }
   return new Response("", { status: 200 });
