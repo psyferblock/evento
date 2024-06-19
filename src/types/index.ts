@@ -119,7 +119,7 @@ export type CreateOrderParams = {
   stripeId: string;
   eventId: string;
   buyerId: string;
-  totalAmount: string;
+  totalAmount?: string;
   createdAt: Date;
 };
 

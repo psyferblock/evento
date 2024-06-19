@@ -15,7 +15,6 @@ const EventDetailsPage = async ({
   searchParams,
 }: SearchParamProps) => {
   const event = await getEventById(id);
-  console.log("event", event);
   const relatedEvents = await getRelatedEventsByCategory({
     categoryId: event.category._id,
     eventId: event._id,

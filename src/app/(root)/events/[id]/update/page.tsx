@@ -19,7 +19,6 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
   const userPublicMetadata =
     sessionClaims?.userPublidMetadata as UserPublicMetadata; ;
   const userId = userPublicMetadata.userId
-  console.log('userId', userId)
   const event = await getEventById(id);
   return (
     <>

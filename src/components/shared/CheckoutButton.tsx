@@ -6,14 +6,11 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import Checkout from "./Checkout";
 
-
-
 const CheckoutButton = ({ event }: { event: IEvent }) => {
   const hasEventFinished = new Date(event.startDateTime) < new Date();
   const { user } = useUser();
   const userId = user?.publicMetadata.userId as string;
-
- 
+  console.log("userId at userButton" , userId);
 
   return (
     <div className="flex items-center gap-3">
