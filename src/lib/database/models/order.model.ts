@@ -11,6 +11,10 @@ export interface IOrder extends Document {
   buyer: {
     _id: string;
     firstName: string;
+    event: {
+      _id: string;
+      title: string;
+    };
     lastName: string;
   };
 }
@@ -33,6 +37,10 @@ const orderSchema = new Schema({
     unique: true,
   },
   totalAmmount: {
+    type: Schema.Types.ObjectId,
+    ref: "Event",
+  },
+  event: {
     type: Schema.Types.ObjectId,
     ref: "Event",
   },
