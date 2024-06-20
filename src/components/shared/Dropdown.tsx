@@ -25,7 +25,7 @@ import { Input } from "../ui/input";
 import {
   createCategory,
   getAllCategories,
-} from "@/lib/actions/category.actioins";
+} from "@/lib/actions/category.actions";
 
 type DropDownProps = {
   value?: string;
