@@ -13,9 +13,8 @@ type CardProps = {
 };
 const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
   const { sessionClaims } = auth();
-  const userPublicMetadata =
-    sessionClaims?.userPublidMetadata as UserPublicMetadata;
-  const userId = userPublicMetadata.userId;
+  const userPublicMetadata =    sessionClaims?.userPublidMetadata as UserPublicMetadata;
+  const userId = userPublicMetadata?.userId;
 
   const isEventCreator = userId === event.organizer._id.toString();
 
