@@ -1,17 +1,26 @@
+import CategoryFilter from "@/components/shared/CategoryFilter";
 import Collection from "@/components/shared/Collection";
+import Search from "@/components/shared/Search";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import { createUser } from "@/lib/actions/user.actions";
+import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home() {
+export default async function Home({ searchParams }: SearchParamProps) {
+
+   const page = Number(searchParams?.page) || 1;
+  const searchText = (searchParams?.query as string) || '';
+  const category = (searchParams?.category as string) || '';
+
   const events = await getAllEvents({
-    query: "",
-    category: "",
-    page: 1,
-    limit: 6,
-  });
+    query: searchText,
+    category,
+    page,
+    limit: 6
+  })
+
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain p-5 md:py-10">
@@ -44,7 +53,8 @@ export default async function Home() {
           Trusted by <br /> Thousands of events
         </h2>
         <div className="flex w-full flex-col gap-5 md:flex-row">
-          serch category filter
+          <Search/>
+          <CategoryFilter/>
         </div>
       </section>
       {/* the naming of the props is designed for the component to be reusable( similat to the types prop when we were at createEvent Component) */}
