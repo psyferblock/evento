@@ -1,6 +1,9 @@
 import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
 import { getEventsByUser } from "@/lib/actions/event.actions";
+import { getOrdersByUser } from "@/lib/actions/order.actions";
+import { IOrder } from "@/lib/database/models/order.model";
+import { SearchParamProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import React from "react";
@@ -9,15 +12,20 @@ type UserPublicMetadata = {
   userId: string;
   userName: string;
 };
-const ProfilePage = async() => {
+const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const { sessionClaims } = auth();
+  const ordersPage = Number(searchParams?.ordersPage) || 1;
+  const eventsPage = Number(searchParams?.eventsPage) || 1;
 
   const userPublicMetadata =
     sessionClaims?.userPublidMetadata as UserPublicMetadata;
 
   const userId = userPublicMetadata.userId;
 
-  const organizedEvents = await getEventsByUser({userId,page:1})
+  const orders = await getOrdersByUser({ userId, page: ordersPage });
+  const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];
+
+  const organizedEvents = await getEventsByUser({ userId, page: eventsPage});
 
   return (
     <>
@@ -31,7 +39,7 @@ const ProfilePage = async() => {
         </div>
       </section>
       <section className="wrapper my-8">
-        {/* <Collection
+        <Collection
           data={orderedEvents}
           emptyTitle="No event tickets purchased yet"
           emptyStateSubtext="No worries - plenty of exciting events to explore!"
@@ -40,7 +48,7 @@ const ProfilePage = async() => {
           page={ordersPage}
           urlParamName="ordersPage"
           totalPages={orders?.totalPages}
-        /> */}
+        />
       </section>
 
       {/* Events Organized */}
@@ -54,13 +62,13 @@ const ProfilePage = async() => {
       </section>
 
       <section className="wrapper my-8">
-        <Collection 
+        <Collection
           data={organizedEvents?.data}
           emptyTitle="No events have been created yet"
           emptyStateSubtext="Go create some now"
           collectionType="Events_Organized"
           limit={3}
-          page={1}
+          page={eventsPage}
           urlParamName="eventsPage"
           totalPages={organizedEvents?.totalPages}
         />
