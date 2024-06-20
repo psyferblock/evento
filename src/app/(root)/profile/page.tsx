@@ -20,7 +20,7 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
   const userPublicMetadata =
     sessionClaims?.userPublidMetadata as UserPublicMetadata;
 
-  const userId = userPublicMetadata.userId;
+  const userId = userPublicMetadata?.userId;
 
   const orders = await getOrdersByUser({ userId, page: ordersPage });
   const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];

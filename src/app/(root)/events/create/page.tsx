@@ -6,7 +6,7 @@ import React from "react";
 const CreateEvent = () => {
   const { sessionClaims } = auth();
   const userPublicMetadata =    sessionClaims?.userPublidMetadata as UserPublicMetadata;
-  const userId = userPublicMetadata.userId as string ;
+  const userId = userPublicMetadata?.userId as string ;
 
 
   return (
